@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 
 
 class BaseLearner(ABC):
+    """ Base class which all learner objects must inherit
+    """
     def __init__(self):
         pass
 
