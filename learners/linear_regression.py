@@ -2,8 +2,8 @@ from learners.base import BaseLearner
 
 
 class LinearRegression(BaseLearner):
-    def __init__(self):
-        super(LinearRegression, self).__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(super().__init__(*args, **kwargs))
 
     def learn(self):
         pass
