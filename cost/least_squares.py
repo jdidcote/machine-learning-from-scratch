@@ -1,17 +1,30 @@
 import numpy as np
 
+from cost.base import BaseCost
 
-def least_squares_cost(
-        y: np.ndarray,
-        y_hat: np.ndarray
-):
-    """ Compute the least-squares cost
 
-    :param y: numpy array of actual target values
-    :param y_hat: numpy array of predicted target values
-    :return: least squares cost value
+class LeastSquaresCost(BaseCost):
+    """ Least squares cost function for linear regression
     """
-    error = sum((y - y_hat) ** 2)
-    cost = (1 / (2 * len(y))) * error
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-    return cost
+    def cost(self):
+        error = sum((self.y_hat - self.y) ** 2)
+        cost = (1 / (2 * self.m)) * error
+        return cost
+
+    def cost_derivative(self, X: np.ndarray):
+        """ Compute the least squares cost function derivative
+
+        :param X: n by m feature matrix
+        :return:
+        """
+
+        return (self.y_hat - self.y).dot(X)
+
+
+if __name__ == '__main__':
+    y = np.array([1, 2, 3])
+    y_hat = np.array([1, 2, 3])
+    print(LeastSquaresCost(y, y_hat).cost())
