@@ -9,12 +9,12 @@ class LeastSquaresCost(BaseCost):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def cost(self):
+    def cost(self) -> float:
         error = sum((self.y_hat - self.y) ** 2)
         cost = (1 / (2 * self.m)) * error
         return cost
 
-    def cost_derivative(self, X: np.ndarray):
+    def cost_derivative(self, X: np.ndarray) -> float:
         """ Compute the least squares cost function derivative
 
         :param X: n by m feature matrix

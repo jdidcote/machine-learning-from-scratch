@@ -16,3 +16,7 @@ class BaseCost(ABC):
     @abstractmethod
     def cost(self):
         pass
+
+    @abstractmethod
+    def cost_derivative(self):
+        pass
