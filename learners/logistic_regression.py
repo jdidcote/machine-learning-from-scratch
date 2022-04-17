@@ -1,11 +1,15 @@
 import numpy as np
 
-from cost.least_squares import LeastSquaresCost
+from cost.log_loss import LogLossCost
 from learners.base import BaseLearner
 from optimisers.gradient_descent import gradient_descent
 
 
-class LinearRegression(BaseLearner):
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+
+class LogisticRegression(BaseLearner):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -32,8 +36,8 @@ class LinearRegression(BaseLearner):
         results = gradient_descent(
             X,
             y,
-            cost=LeastSquaresCost,
-            learner=LinearRegression,
+            cost=LogLossCost,
+            learner=LogisticRegression,
             theta=np.zeros(X.shape[1]),
             alpha=self.alpha,
             n_iter=self.n_iter
@@ -64,4 +68,4 @@ class LinearRegression(BaseLearner):
         """
         if not padded:
             X = self.pad_X(X)
-        return np.dot(X, theta)
+        return sigmoid(np.dot(X, theta))
