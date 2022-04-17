@@ -1,32 +1,61 @@
 import numpy as np
 
+from cost.least_squares import LeastSquaresCost
 from learners.base import BaseLearner
-
-import numpy as np
+from optimisers.gradient_descent import gradient_descent
 
 
 class LinearRegression(BaseLearner):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def learn(self):
-        pass
-
-    def predict(self):
-        pass
+        super().__init__()
 
     @staticmethod
+    def pad_X(X: np.ndarray) -> np.ndarray:
+        """ Pads X with 1s for theta 0 (intercept)
+        :param X: feature matrix (m x n)
+        :return: padded feature matrix
+        """
+        m = X.shape[0]
+        return np.concatenate([np.ones((m, 1)), X], axis=1)
+
+    def learn(self, X, y, padded=False):
+        """ Train on X and y and store learned parameters
+
+        :param X: feature matrix (m x n) or (mxn+1 if padded is true)
+        :param y: target values
+        :param padded: has the array already been padded with 1s for theta0
+        :return:
+        """
+        if not padded:
+            X = self.pad_X(X)
+
+        results = gradient_descent(
+            X,
+            y,
+            cost=LeastSquaresCost,
+            learner=LinearRegression,
+            theta=np.zeros(X.shape[1])
+        )
+        self.theta = results.theta_final
+        self.theta_history = results.theta_history
+        self.cost_history = results.cost_history
+
+    def predict(self, X: np.ndarray):
+        return np.dot(self.pad_X(X), self.theta)
+
     def predict_adhoc(
+            self,
             X: np.ndarray,
-            theta: np.ndarray
+            theta: np.ndarray,
+            padded: bool = True
     ) -> np.ndarray:
         """ Make a one off prediction not based on any learned parameters
 
-        :param X: feature matrix (x0 to be 1s for intercept term)
-                  (m x n+1)
-        :param theta: vector of initial parameters
-                      (n+1 x 1)
+        :param X: feature matrix (m x n) or (mxn+1 if padded is true)
+        :param padded: has the array already been padded with 1s for theta0
+        :param theta: vector of initial parameters (n+1 x 1)
         :return:
         """
+        if not padded:
+            X = self.pad_X(X)
         return np.dot(X, theta)
-

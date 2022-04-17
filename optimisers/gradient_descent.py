@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List
+from typing import List, Type
 
 import numpy as np
 
@@ -17,11 +17,11 @@ class GradientDescentHistory:
 def gradient_descent(
         X: np.ndarray,
         y: np.ndarray,
-        cost: BaseCost,
-        learner: BaseLearner,
+        cost: Type[BaseCost],
+        learner: Type[BaseLearner],
         theta: np.ndarray,
-        alpha: float,
-        n_iter: int
+        alpha: float = 0.01,
+        n_iter: int = 1500
 ) -> GradientDescentHistory:
     """ Minimise the given cost function using gradient descent
 
@@ -42,7 +42,7 @@ def gradient_descent(
     theta_history, cost_history = [], []
 
     for _ in range(n_iter):
-        y_hat = learner.predict_adhoc(X, theta)
+        y_hat = learner().predict_adhoc(X, theta)
         _cost = cost(y, y_hat)
         theta = theta - (alpha / m) * _cost.cost_derivative(X)
 

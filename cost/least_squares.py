@@ -22,9 +22,3 @@ class LeastSquaresCost(BaseCost):
         """
 
         return (self.y_hat - self.y).dot(X)
-
-
-if __name__ == '__main__':
-    y = np.array([1, 2, 3])
-    y_hat = np.array([1, 2, 3])
-    print(LeastSquaresCost(y, y_hat).cost())

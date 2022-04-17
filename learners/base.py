@@ -2,14 +2,15 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
+
 class BaseLearner(ABC):
     """ Base class which all learner objects must inherit
     """
     def __init__(self):
-        pass
+        self._setup()
 
     @abstractmethod
-    def learn(self):
+    def learn(self, X, y):
         pass
 
     @abstractmethod
@@ -23,3 +24,8 @@ class BaseLearner(ABC):
             theta: np.ndarray
     ):
         pass
+
+    def _setup(self):
+        self.theta = None
+        self.theta_history = None
+        self.cost_history = None
