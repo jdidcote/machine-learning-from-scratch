@@ -5,7 +5,8 @@ My own implementation of some simple machine learning models for learning purpos
 ## Setup
 
 ### Examples:
-There are some useful examples [here](notebooks/examples.ipynb)
+
+There are some useful examples [here](notebooks/examples.md)
 
 ### Virtual environment
 
