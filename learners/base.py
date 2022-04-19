@@ -12,7 +12,7 @@ class BaseLearner(ABC):
         self.n_iter = n_iter
 
     @abstractmethod
-    def learn(self, X, y):
+    def learn(self, X, y=None):
         pass
 
     @abstractmethod
